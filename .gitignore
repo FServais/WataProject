@@ -7,3 +7,6 @@
 .idea/copyright/profiles_settings.xml
 .idea/libraries/Maven__org_twitter4j_twitter4j_core_4_0_3.xml
 WataProject.iml
+twitter4j.properties
+.idea/vcs.xml
+out/production/WataProject/Main.class
