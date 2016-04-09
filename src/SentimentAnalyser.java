@@ -11,9 +11,11 @@ import java.util.Map;
 public class SentimentAnalyser {
 
     Map<String, Integer> sentimentWords;
+    TweetCleaner cleaner;
 
     public SentimentAnalyser() {
         this.sentimentWords = new HashMap<String, Integer>();
+        this.cleaner = new TweetCleaner();
     }
 
     public void analyseTweets() {
@@ -55,19 +57,12 @@ public class SentimentAnalyser {
     }
 
     private int score(Status tweet) {
-        String text = tweet.getText();
-        text = text.toLowerCase();
-        text = text.replaceAll("[^a-zA-Z ]","");
-
+        String text = cleaner.cleanString(tweet.getText());
         String[] words = text.split(" ");
 
         int finalScore = 0;
 
         for(String word : words){
-            if (word.startsWith("http")){
-                continue;
-            }
-
             if (this.sentimentWords.containsKey(word)){
                 finalScore += this.sentimentWords.get(word);
             }
