@@ -36,7 +36,7 @@ public class TwitterSearchEngine {
         Query twitterQuery = new Query(query);
         twitterQuery.setCount(100); // Max # of tweet per page (100 is max)
         twitterQuery.setLang("en");
-        twitterQuery.setResultType(Query.ResultType.mixed);
+        twitterQuery.setResultType(Query.ResultType.recent);
 
         if (fromMaxId != -1)
             twitterQuery.setMaxId(fromMaxId);

@@ -10,12 +10,12 @@ public class Main {
 
         List<Status> tweets = null;
 //        long lastId = -1;
-        long lastId = 717428853405327365L;
-        tweets = searchEngine.searchTweet("#AppleVsFBI", 2, lastId);
+        long lastId = 718702550183096320L - 1;
+        tweets = searchEngine.searchTweet("#AppleVsFBI", 5, lastId);
 
         System.out.println("Number of tweets: " + tweets.size());
         for(Status tweet : tweets){
-            System.out.println(tweet.getText());
+            System.out.println("[" + tweet.getId() + "]" + " :: " +tweet.getText() + "---");
         }
     }
 }
