@@ -11,17 +11,31 @@ public class TweetCleaner {
 	//StopWords from Longlist : http://www.ranks.nl/stopwords
 
 	private HashMap<String, String> stopwords;
+	private HashMap<String, String> abbr;
 	
 	public TweetCleaner(){
+	    stopwords = new HashMap<>();
+	    abbr = new HashMap<>();
+	    
 		try{
 		    File file = new File("stopwords.txt");
 		    Scanner input = new Scanner(file);
 		    
-		    stopwords = new HashMap<>();
+		    
 		    
 		    while(input.hasNextLine()){
 		    	String line = input.nextLine();
 		    	stopwords.put(line, line);
+		    }
+		   
+		    File file2 = new File("abbreviations.txt");
+		    input = new Scanner(file2);
+		    while(input.hasNextLine()){
+		    	String line = input.nextLine();
+		    	line.toLowerCase();
+		    	String[] pair = line.split("[ ][ ]*");
+		    	if(pair.length == 2)
+		    		abbr.put(pair[0], pair[1]);
 		    }
 		}catch(FileNotFoundException e){e.printStackTrace();}
 	}
@@ -44,17 +58,23 @@ public class TweetCleaner {
 		//Remove punctuation & numbers
 		clean = clean.replaceAll("[^a-z ]", "");
 		
-		//Remove stopwords
-		String[] words = clean.split(" ");
+		
+		
+		//Remove stopwords & replace abbreviations
+		String[] words = clean.split("[ ][ ]*");
 		StringBuilder build = new StringBuilder("");
 		for(int i = 0; i < words.length; ++i){
-			if(!this.stopwords.containsKey(words[i].replaceAll(" ", ""))){
+			if(this.abbr.containsKey(words[i])){
+				words[i] = this.abbr.get(words[i]); //Abbreviations replacment
+			}
+			if(!this.stopwords.containsKey(words[i].replaceAll(" ", ""))){ //Stopwords removal
 				build.append(words[i]);
 				build.append(" ");
 			}
 		}
+		clean = build.toString();
 		
-		return build.toString();
+		return clean;
 	}
 
 }
