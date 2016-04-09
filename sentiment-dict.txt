@@ -8239,3 +8239,6 @@ t=w l=1 word1=unlock p=v s=y priorpolarity=negative
 t=w l=1 word1=apple p=v s=y priorpolarity=neutral
 t=w l=1 word1=iphones p=v s=y priorpolarity=neutral
 t=w l=1 word1=infosec p=v s=y priorpolarity=neutral
+t=w l=1 word1=fbi p=v s=y priorpolarity=neutral
+t=w l=1 word1=hack p=v s=y priorpolarity=neutral
+t=w l=1 word1=appleaapl p=v s=y priorpolarity=neutral

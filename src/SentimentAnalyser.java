@@ -83,37 +83,31 @@ public class SentimentAnalyser {
                 finalScore += this.sentimentWords.get(word);
             }
             else{//if not we check through a Python program what's the lemma of the word
+                int weight = 0;
+                try {
+                    Process p = Runtime.getRuntime().exec("python3 lemmatizer.py " + word);
+                    BufferedReader stdInput = new BufferedReader(new
+                            InputStreamReader(p.getInputStream()));
 
-                /**
-                 * try {
-                 Process p = Runtime.getRuntime().exec("python lemmatizer.py " + word);
-                 BufferedReader stdInput = new BufferedReader(new
-                 InputStreamReader(p.getInputStream()));
+                    BufferedReader stdError = new BufferedReader(new
+                            InputStreamReader(p.getErrorStream()));
 
-                 BufferedReader stdError = new BufferedReader(new
-                 InputStreamReader(p.getErrorStream()));
+                    // read the output from the command
+                    String output = stdInput.readLine();
 
-                 // read the output from the command
-                 String output = "";
-                 while ((output.concat(stdInput.readLine())) != null) {
-                 continue;
-                 }
+                    if(output.length()>0){
+                        //first we check that the python script was able to identify the meaning of the abbreviation
+                        //this means that output has to be different from word
+                        if(output.equals(word)){
+                            //the script didn't resolve the word, so we have to add it to the dictionary
+                            weight = DictionnaryParser.addWordToMap(word);
+                            sentimentWords.put(word, weight);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-                 if(output.length()>0){
-                 //first we check that the python script was able to identify the meaning of the abbreviation
-                 //this means that output has to be different from word
-                 if(output.equals(word)){
-                 //the script didn't resolve the word, so we have to add it to the dictionary
-                 DictionnaryParser.addWordToMap(word);
-                 }
-                 }
-                 } catch (IOException e) {
-                 e.printStackTrace();
-                 }
-                 */
-
-                int weight = DictionnaryParser.addWordToMap(word);
-                sentimentWords.put(word, weight);
             }
         }
 
