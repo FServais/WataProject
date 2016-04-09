@@ -10,3 +10,4 @@ WataProject.iml
 twitter4j.properties
 .idea/vcs.xml
 out/production/WataProject/Main.class
+TwitterSearchEngine.class
