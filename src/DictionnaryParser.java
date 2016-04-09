@@ -61,9 +61,9 @@ public class DictionnaryParser {
         s.close();
     }
 
-    public static void addWordToMap(String word){
+    public static int addWordToMap(String word){
         Scanner reader = new Scanner(System.in);  // Reading from System.in
-        System.out.println("Word: " + word + "Enter 1 for positive word, 2 for negative and 3 for neutral: ");
+        System.out.println("Word: " + word + " - Enter 1 for positive word, 2 for negative and 3 for neutral: ");
         int n = reader.nextInt(); // Scans the next token of the input as an int.
         String polarity;
         switch(n){
@@ -83,7 +83,9 @@ public class DictionnaryParser {
             dictionaryFile.append("t=w l=1 word1=" + word + " p=v s=y priorpolarity=" + polarity);
             dictionaryFile.close();
         }catch (IOException e) {
-            //exception handling
+            e.printStackTrace();
         }
+
+        return n;
     }
 }
