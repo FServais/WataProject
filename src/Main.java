@@ -9,9 +9,13 @@ public class Main {
         TwitterSearchEngine searchEngine = new TwitterSearchEngine();
 
         List<Status> tweets = null;
-
-        tweets = searchEngine.searchTweet("#AppleVsFBI", 50000);
+//        long lastId = -1;
+        long lastId = 717428853405327365L;
+        tweets = searchEngine.searchTweet("#AppleVsFBI", 2, lastId);
 
         System.out.println("Number of tweets: " + tweets.size());
+        for(Status tweet : tweets){
+            System.out.println(tweet.getText());
+        }
     }
 }
