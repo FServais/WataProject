@@ -3,6 +3,7 @@ import twitter4j.Status;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,14 +27,15 @@ public class SentimentAnalyser {
     }
 
     public void analyseTweets() {
-        List<Status> tweets = getTweets();
+        TweetCleaner tc = new TweetCleaner();
+        ArrayList<String> cleanedTweets = tc.cleanTweets(getTweets());
 
         parseDictionary();
 
         // Give score to each tweet
-        Map<Status, Integer> scoreMap = new HashMap<>();
+        Map<String, Integer> scoreMap = new HashMap<>();
 
-        for(Status tweet : tweets) {
+        for(String tweet : cleanedTweets) {
             int score = score(tweet);
             scoreMap.put(tweet, score);
         }
@@ -62,9 +64,8 @@ public class SentimentAnalyser {
         this.sentimentWords = parser.getSentimentMap();
     }
 
-    private int score(Status tweet) {
-        String text = cleaner.cleanString(tweet.getText());
-        String[] words = text.split(" ");
+    private int score(String tweet) {
+        String[] words = tweet.split(" ");
 
         int finalScore = 0;
 

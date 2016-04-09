@@ -18,7 +18,7 @@ public class DictionnaryParser {
     Map<String, Integer> sentimentMap;
 
     public DictionnaryParser() {
-        this.sentimentMap = new HashMap<String, Integer>();
+        this.sentimentMap = new HashMap<>();
     }
 
     public Map<String, Integer> getSentimentMap() {
