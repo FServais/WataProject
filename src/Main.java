@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         List<Status> tweets = null;
 
-        tweets = searchTweet("#AppleVSFBI", 5000);
+        tweets = searchTweet("#AppleVSFBI", 10);
 
         System.out.println("Number of tweets: " + tweets.size());
 
