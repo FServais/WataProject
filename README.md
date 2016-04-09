@@ -3,7 +3,7 @@ Before running the project, a file must be created for the Twitter4j library so 
 ```
 debug=true
 oauth.consumerKey=********
-oauth.consumerSecret==********
-oauth.accessToken==********
-oauth.accessTokenSecret==********
+oauth.consumerSecret=********
+oauth.accessToken=********
+oauth.accessTokenSecret=********
 ```
