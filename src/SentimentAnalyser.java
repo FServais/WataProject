@@ -13,10 +13,10 @@ import java.util.*;
 public class SentimentAnalyser {
 
     final String DICTIONARY = "sentiment-dict.txt";
-    final String HASHTAG = "#AppleVsFBI";
-    final int MAX_TWEETS = 3;
-    final int UPPER_BOUND = 2;
-    final int LOWER_BOUND = -2;
+    final String HASHTAG = "#panamapapers";
+    final int MAX_TWEETS = 100;
+    final int UPPER_BOUND = 1;
+    final int LOWER_BOUND = -11;
     final String TRAINING_DATA_FILE = "training_data_file.csv";
 
     Map<String, Integer> sentimentWords;
@@ -29,6 +29,7 @@ public class SentimentAnalyser {
 
     public void analyseTweets() {
         TweetCleaner tc = new TweetCleaner();
+        List<Status> tweets = getTweets();
         ArrayList<String> cleanedTweets = tc.cleanTweets(getTweets());
 
         parseDictionary();
@@ -38,11 +39,14 @@ public class SentimentAnalyser {
 
         try {
             FileWriter writer = new FileWriter(TRAINING_DATA_FILE);
+            int tweetIndex = 0;
             for(String tweet : cleanedTweets) {
                 int score = score(tweet);
                 scoreMap.put(tweet, score);
-                int tweetClass = getTweetClass(tweet, score);
-                writer.write(tweet + "," + tweetClass + "\n");
+                String originalTweet = tweets.get(tweetIndex).getText().replaceAll("[\n\t,]"," ");
+                int tweetClass = getTweetClass(originalTweet, score);
+                writer.write(originalTweet + "," + tweetClass + "\n");
+                tweetIndex++;
             }
             writer.close();
         } catch (IOException e) {
@@ -74,11 +78,12 @@ public class SentimentAnalyser {
     }
 
     private int score(String tweet) {
-        String[] words = tweet.split(" ");
+        String[] words = tweet.split("[ ][ ]*");
 
         int finalScore = 0;
 
         for(String word : words){
+
             if (this.sentimentWords.containsKey(word)){//first we check if the word is contained in ou dictionary
                 finalScore += this.sentimentWords.get(word);
             }
@@ -110,10 +115,10 @@ public class SentimentAnalyser {
                  } catch (IOException e) {
                  e.printStackTrace();
                  }
-                 */
+
 
                 int weight = DictionnaryParser.addWordToMap(word);
-                sentimentWords.put(word, weight);
+                sentimentWords.put(word, weight);*/
             }
         }
 
@@ -125,10 +130,11 @@ public class SentimentAnalyser {
             return 0;
         else if(score <= LOWER_BOUND)
             return 1;
-        else{
+        /*else{
             Scanner reader = new Scanner(System.in);  // Reading from System.in
-            System.out.println("Is this tweet positive (0) or negative (1): " + tweet);
+            System.out.println("Is this tweet positive (0) or negative (1), 2 to ignore: " + tweet);
             return reader.nextInt();
-        }
+        }*/
+        else return -1;
     }
 }

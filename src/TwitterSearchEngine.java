@@ -76,6 +76,9 @@ public class TwitterSearchEngine {
                 if(tweet.isRetweet())
                     continue;
 
+                if(tweet.getText().contains("http"))//throws away tweets with http links
+                    continue;
+
                 tweets.add(tweet);
 
                 if(tweets.size() >= maxNumberTweets)
