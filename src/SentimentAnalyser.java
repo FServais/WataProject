@@ -93,50 +93,50 @@ public class SentimentAnalyser {
                 finalScore += this.sentimentWords.get(word);
             }
             else{//if not we check through a Python program what's the lemma of the word
-                try {
-                    Process p = Runtime.getRuntime().exec("python lemmatizer.py " + word);
-                    p.waitFor();
-                    BufferedReader stdInput = new BufferedReader(new
-                            InputStreamReader(p.getInputStream()));
-
-                    BufferedReader stdError = new BufferedReader(new
-                            InputStreamReader(p.getErrorStream()));
-
-                    // read the output from the command
-                    StringBuffer outputBuffer = new StringBuffer();
-                    String line, output;
-                    while ((line = stdInput.readLine()) != null) {
-                        outputBuffer.append(line);
-                    }
-
-                    output = outputBuffer.toString();
-
-                    if(output.length()>0){
-                        System.out.println("Lemma of '" + word + "' is " + output);
-
-                        //first we check that the python script was able to identify the meaning of the abbreviation
-                        //this means that output has to be different from word
-//                        if(output.equals(word)){
-//                            //the script didn't resolve the word, so we have to add it to the dictionary
-//                            int clazz = DictionaryParser.addWordToMap(word);
-//                            int score;
-//                            if (clazz == 0) { score = 1;}
-//                            else if(clazz == 1) { score = -1; }
-//                            else { score = 0; }
+//                try {
+//                    Process p = Runtime.getRuntime().exec("python lemmatizer.py " + word);
+//                    p.waitFor();
+//                    BufferedReader stdInput = new BufferedReader(new
+//                            InputStreamReader(p.getInputStream()));
 //
-//                            this.sentimentWords.put(word, score);
+//                    BufferedReader stdError = new BufferedReader(new
+//                            InputStreamReader(p.getErrorStream()));
+//
+//                    // read the output from the command
+//                    StringBuffer outputBuffer = new StringBuffer();
+//                    String line, output;
+//                    while ((line = stdInput.readLine()) != null) {
+//                        outputBuffer.append(line);
+//                    }
+//
+//                    output = outputBuffer.toString();
+//
+//                    if(output.length()>0){
+//                        System.out.println("Lemma of '" + word + "' is " + output);
+//
+//                        //first we check that the python script was able to identify the meaning of the abbreviation
+//                        //this means that output has to be different from word
+////                        if(output.equals(word)){
+////                            //the script didn't resolve the word, so we have to add it to the dictionary
+////                            int clazz = DictionaryParser.addWordToMap(word);
+////                            int score;
+////                            if (clazz == 0) { score = 1;}
+////                            else if(clazz == 1) { score = -1; }
+////                            else { score = 0; }
+////
+////                            this.sentimentWords.put(word, score);
+////                        }
+//                        if (!output.equals(word) && this.sentimentWords.containsKey(output)) {
+//                            finalScore += this.sentimentWords.get(output);
+//                        } else {
+//                            this.sentimentWords.put(output, 0); // Consider neutral
 //                        }
-                        if (!output.equals(word) && this.sentimentWords.containsKey(output)) {
-                            finalScore += this.sentimentWords.get(output);
-                        } else {
-                            this.sentimentWords.put(output, 0); // Consider neutral
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
 
 
 //                int weight = DictionaryParser.addWordToMap(word);
