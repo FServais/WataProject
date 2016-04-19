@@ -11,13 +11,13 @@ import java.util.Scanner;
  * @author Fabrice Servais (fabrice.servais@gmail.com)<br/>
  *         Date : 09/04/16
  */
-public class DictionnaryParser {
+public class DictionaryParser {
 
     final static String DICTIONARY_FILE = "sentiment-dict.txt";
 
     Map<String, Integer> sentimentMap;
 
-    public DictionnaryParser() {
+    public DictionaryParser() {
         this.sentimentMap = new HashMap<>();
     }
 
