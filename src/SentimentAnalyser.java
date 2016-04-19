@@ -13,10 +13,10 @@ import java.util.*;
 public class SentimentAnalyser {
 
     final String DICTIONARY = "sentiment-dict.txt";
-    final String HASHTAG = "#BatmanVsSuperman";
+    final String HASHTAG = "#panamapapers";
     final int MAX_TWEETS = 100;
-    final int UPPER_BOUND = 2;
-    final int LOWER_BOUND = -2;
+    final int UPPER_BOUND = 1;
+    final int LOWER_BOUND = -11;
     final String TRAINING_DATA_FILE = "training_data_file.csv";
 
     Map<String, Integer> sentimentWords;
@@ -29,6 +29,7 @@ public class SentimentAnalyser {
 
     public void analyseTweets() {
         TweetCleaner tc = new TweetCleaner();
+        List<Status> tweets = getTweets();
         ArrayList<String> cleanedTweets = tc.cleanTweets(getTweets());
 
         parseDictionary();
@@ -38,13 +39,14 @@ public class SentimentAnalyser {
 
         try {
             FileWriter writer = new FileWriter(TRAINING_DATA_FILE);
+            int tweetIndex = 0;
             for(String tweet : cleanedTweets) {
                 int score = score(tweet);
                 scoreMap.put(tweet, score);
-                int tweetClass = getTweetClass(tweet, score);
-                if (tweetClass != 0 && tweetClass != 1)
-                    continue;
-                writer.write(tweet + "," + tweetClass + "\n");
+                String originalTweet = tweets.get(tweetIndex).getText().replaceAll("[\n\t,]"," ");
+                int tweetClass = getTweetClass(originalTweet, score);
+                writer.write(originalTweet + "," + tweetClass + "\n");
+                tweetIndex++;
             }
             writer.close();
         } catch (IOException e) {
@@ -76,41 +78,48 @@ public class SentimentAnalyser {
     }
 
     private int score(String tweet) {
-        String[] words = tweet.split(" ");
+        String[] words = tweet.split("[ ][ ]*");
 
         int finalScore = 0;
 
         for(String word : words){
+
             if (this.sentimentWords.containsKey(word)){//first we check if the word is contained in ou dictionary
                 finalScore += this.sentimentWords.get(word);
             }
-//            else{//if not we check through a Python program what's the lemma of the word
-//                int weight = 0;
-//                try {
-//                    Process p = Runtime.getRuntime().exec("python3 lemmatizer.py " + word);
-//                    BufferedReader stdInput = new BufferedReader(new
-//                            InputStreamReader(p.getInputStream()));
-//
-//                    BufferedReader stdError = new BufferedReader(new
-//                            InputStreamReader(p.getErrorStream()));
-//
-//                    // read the output from the command
-//                    String output = stdInput.readLine();
-//
-//                    if(output.length()>0){
-//                        //first we check that the python script was able to identify the meaning of the abbreviation
-//                        //this means that output has to be different from word
-//                        if(output.equals(word)){
-//                            //the script didn't resolve the word, so we have to add it to the dictionary
-//                            weight = DictionnaryParser.addWordToMap(word);
-//                            sentimentWords.put(word, weight);
-//                        }
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
+            else{//if not we check through a Python program what's the lemma of the word
+
+                /**
+                 * try {
+                 Process p = Runtime.getRuntime().exec("python lemmatizer.py " + word);
+                 BufferedReader stdInput = new BufferedReader(new
+                 InputStreamReader(p.getInputStream()));
+
+                 BufferedReader stdError = new BufferedReader(new
+                 InputStreamReader(p.getErrorStream()));
+
+                 // read the output from the command
+                 String output = "";
+                 while ((output.concat(stdInput.readLine())) != null) {
+                 continue;
+                 }
+
+                 if(output.length()>0){
+                 //first we check that the python script was able to identify the meaning of the abbreviation
+                 //this means that output has to be different from word
+                 if(output.equals(word)){
+                 //the script didn't resolve the word, so we have to add it to the dictionary
+                 DictionnaryParser.addWordToMap(word);
+                 }
+                 }
+                 } catch (IOException e) {
+                 e.printStackTrace();
+                 }
+
+
+                int weight = DictionnaryParser.addWordToMap(word);
+                sentimentWords.put(word, weight);*/
+            }
         }
 
         return finalScore;
@@ -121,10 +130,11 @@ public class SentimentAnalyser {
             return 0;
         else if(score <= LOWER_BOUND)
             return 1;
-        else{
+        /*else{
             Scanner reader = new Scanner(System.in);  // Reading from System.in
-            System.out.println("Is this tweet positive (0) or negative (1) (or ignore (2)): " + tweet);
+            System.out.println("Is this tweet positive (0) or negative (1), 2 to ignore: " + tweet);
             return reader.nextInt();
-        }
+        }*/
+        else return -1;
     }
 }
