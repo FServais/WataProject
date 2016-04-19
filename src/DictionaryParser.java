@@ -86,6 +86,6 @@ public class DictionaryParser {
             e.printStackTrace();
         }
 
-        return n;
+        return n-1;
     }
 }
