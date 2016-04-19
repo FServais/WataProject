@@ -163,9 +163,10 @@ public class SentimentAnalyser {
                 System.out.print("\n");
             }
 
-            System.out.println("Analysing: --- " + row.getKey() + " --- (" + row.getValue() + ")");
             int outputClass = score(new TweetCleaner().cleanString(row.getKey()));
-            System.out.println("---> Score found:" + outputClass);
+
+//            System.out.println("Analysing: --- " + row.getKey() + " --- (" + row.getValue() + ")");
+//            System.out.println("---> Score found:" + outputClass);
 
             if (outputClass == 0) { // Positive
                 if (row.getValue() == 0) {
