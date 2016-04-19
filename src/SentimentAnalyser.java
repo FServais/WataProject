@@ -15,11 +15,11 @@ import java.util.*;
  */
 public class SentimentAnalyser {
 
-    final String DICTIONARY = "sentiment-dict.txt";
-    final int MAX_TWEETS = 20;
+    private final String DICTIONARY = "sentiment-dict.txt";
+    private final int MAX_TWEETS = 20;
 
-    final int UPPER_BOUND = 1;
-    final int LOWER_BOUND = -11;
+    private final int UPPER_BOUND = 1;
+    private final int LOWER_BOUND = -11;
 
     private String hashtagToAnalyse;
     private String outputTrainingFileName;
