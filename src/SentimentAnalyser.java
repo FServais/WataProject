@@ -1,9 +1,7 @@
 import twitter4j.Status;
 
-import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -16,16 +14,19 @@ public class SentimentAnalyser {
     final int MAX_TWEETS = 100;
     final int UPPER_BOUND = 1;
     final int LOWER_BOUND = -11;
-    final String TRAINING_DATA_FILE = "training_data_file.csv";
 
-    private String HASHTAG;
+    private String hashtagToAnalyse;
+    private String outputTrainingFileName;
 
     Map<String, Integer> sentimentWords;
     TweetCleaner cleaner;
 
-    public SentimentAnalyser(String hashtag) {
+    public SentimentAnalyser(String hashtag, String output_filename) {
         this.sentimentWords = new HashMap<>();
         this.cleaner = new TweetCleaner();
+
+        this.hashtagToAnalyse = hashtag;
+        this.outputTrainingFileName = output_filename;
     }
 
     public void analyseTweets() {
@@ -39,7 +40,7 @@ public class SentimentAnalyser {
         Map<String, Integer> scoreMap = new HashMap<>();
 
         try {
-            FileWriter writer = new FileWriter(TRAINING_DATA_FILE);
+            FileWriter writer = new FileWriter(outputTrainingFileName);
             int tweetIndex = 0;
             for(String tweet : cleanedTweets) {
                 int score = score(tweet);
@@ -60,7 +61,7 @@ public class SentimentAnalyser {
 
         List<Status> tweets;
         long lastId = -1;
-        tweets = searchEngine.searchTweet(HASHTAG, MAX_TWEETS, lastId);
+        tweets = searchEngine.searchTweet(hashtagToAnalyse, MAX_TWEETS, lastId);
 
         System.out.println("Number of tweets: " + tweets.size());
         for(Status tweet : tweets){
