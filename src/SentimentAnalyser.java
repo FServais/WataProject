@@ -13,16 +13,17 @@ import java.util.*;
 public class SentimentAnalyser {
 
     final String DICTIONARY = "sentiment-dict.txt";
-    final String HASHTAG = "#panamapapers";
     final int MAX_TWEETS = 100;
     final int UPPER_BOUND = 1;
     final int LOWER_BOUND = -11;
     final String TRAINING_DATA_FILE = "training_data_file.csv";
 
+    private String HASHTAG;
+
     Map<String, Integer> sentimentWords;
     TweetCleaner cleaner;
 
-    public SentimentAnalyser() {
+    public SentimentAnalyser(String hashtag) {
         this.sentimentWords = new HashMap<>();
         this.cleaner = new TweetCleaner();
     }
