@@ -16,7 +16,7 @@ public class SentimentAnalyser {
     private final int MAX_TWEETS = 20;
 
     private final int UPPER_BOUND = 1;
-    private final int LOWER_BOUND = -11;
+    private final int LOWER_BOUND = -1;
 
     private String hashtagToAnalyse;
     private String outputTrainingFileName;
@@ -119,10 +119,7 @@ public class SentimentAnalyser {
 ////                        if(output.equals(word)){
 ////                            //the script didn't resolve the word, so we have to add it to the dictionary
 ////                            int clazz = DictionaryParser.addWordToMap(word);
-////                            int score;
-////                            if (clazz == 0) { score = 1;}
-////                            else if(clazz == 1) { score = -1; }
-////                            else { score = 0; }
+////                            int score = clazz;
 ////
 ////                            this.sentimentWords.put(word, score);
 ////                        }
@@ -149,15 +146,15 @@ public class SentimentAnalyser {
 
     private int getTweetClass(String tweet, int score){
         if(score >= UPPER_BOUND)
-            return 0;
-        else if(score <= LOWER_BOUND)
             return 1;
+        else if(score <= LOWER_BOUND)
+            return -1;
         /*else{
             Scanner reader = new Scanner(System.in);  // Reading from System.in
             System.out.println("Is this tweet positive (0) or negative (1), 2 to ignore: " + tweet);
             return reader.nextInt();
         }*/
-        else return -1;
+        else return 0;
     }
 
     public void evaluateMethod(String testingSetPath) {
@@ -182,13 +179,13 @@ public class SentimentAnalyser {
 //            System.out.println("Analysing: --- " + row.getKey() + " --- (" + row.getValue() + ")");
 //            System.out.println("---> Score found:" + outputClass);
 
-            if (outputClass == 0) { // Positive
+            if (outputClass == 1) { // Positive
                 if (row.getValue() == 0) {
                     nTruePositive++;
                 } else {
                     nFalsePositive++;
                 }
-            } else if (outputClass == 1) { // Negative
+            } else if (outputClass == -1) { // Negative
                 if (row.getValue() == 0) {
                     nFalseNegative++;
                 } else {
@@ -234,7 +231,7 @@ public class SentimentAnalyser {
                 }
                 count++;
 
-                int sentimentClass = record.get("sentiment").equals("0") ? 1 : 0; // 0 in test set is negative
+                int sentimentClass = record.get("sentiment").equals("0") ? -1 : 1; // 0 in test set is negative
                 testset.put(record.get("tweet"), sentimentClass);
 
             }

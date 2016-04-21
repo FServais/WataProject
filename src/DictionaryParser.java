@@ -86,6 +86,11 @@ public class DictionaryParser {
             e.printStackTrace();
         }
 
-        return n-1;
+        int clazz;
+        if (n == 1) {clazz = 1;}
+        else if (n == 2) {clazz = -1;}
+        else {clazz = 0;}
+
+        return clazz;
     }
 }
