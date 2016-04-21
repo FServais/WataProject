@@ -13,7 +13,7 @@ import java.util.*;
 public class SentimentAnalyser {
 
     private final String DICTIONARY = "sentiment-dict.txt";
-    private final int MAX_TWEETS = 20;
+    private final int MAX_TWEETS = 100;
 
     private final int UPPER_BOUND = 1;
     private final int LOWER_BOUND = -1;
@@ -32,9 +32,10 @@ public class SentimentAnalyser {
         this.outputTrainingFileName = output_filename;
     }
 
-    public void analyseTweets() {
+    public void analyseTweets(boolean appendResultsToEndOfFile) {
         TweetCleaner tc = new TweetCleaner();
-        List<Status> tweets = getTweets();
+        long fromId = -1;
+        List<Status> tweets = getTweets(fromId);
         ArrayList<String> cleanedTweets = tc.cleanTweets(getTweets());
 
         parseDictionary();
@@ -43,7 +44,7 @@ public class SentimentAnalyser {
 //        Map<String, Integer> scoreMap = new HashMap<>();
 
         try {
-            FileWriter writer = new FileWriter(outputTrainingFileName);
+            FileWriter writer = new FileWriter(outputTrainingFileName, appendResultsToEndOfFile);
             int tweetIndex = 0;
             for(String tweet : cleanedTweets) {
                 int score = score(tweet);
@@ -59,12 +60,11 @@ public class SentimentAnalyser {
         }
     }
 
-    private List<Status> getTweets(){
+    private List<Status> getTweets(long maxId){
         TwitterSearchEngine searchEngine = new TwitterSearchEngine();
 
         List<Status> tweets;
-        long lastId = -1;
-        tweets = searchEngine.searchTweet(hashtagToAnalyse, MAX_TWEETS, lastId);
+        tweets = searchEngine.searchTweet(hashtagToAnalyse, MAX_TWEETS, maxId);
 
         System.out.println("Number of tweets: " + tweets.size());
         for(Status tweet : tweets){
@@ -73,6 +73,10 @@ public class SentimentAnalyser {
         System.out.println("========================");
 
         return tweets;
+    }
+
+    private List<Status> getTweets(){
+        return getTweets(-1);
     }
 
     private void parseDictionary(){

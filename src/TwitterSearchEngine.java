@@ -39,7 +39,8 @@ public class TwitterSearchEngine {
         twitterQuery.setResultType(Query.ResultType.recent);
 
         if (fromMaxId != -1)
-            twitterQuery.setMaxId(fromMaxId);
+            twitterQuery.setMaxId(fromMaxId-1);
+
 
         List<Status> tweets = new ArrayList<>();
 
