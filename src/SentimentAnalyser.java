@@ -237,7 +237,8 @@ public class SentimentAnalyser {
                 System.out.print("\n");
             }
 
-            int outputClass = score(new TweetCleaner().cleanString(row.getKey()), 0);
+            String tweet = new TweetCleaner().cleanString(row.getKey());
+            int outputClass = getTweetClass(tweet, score(tweet, 0), 0);
 
 //            System.out.println("Analysing: --- " + row.getKey() + " --- (" + row.getValue() + ")");
 //            System.out.println("---> Score found:" + outputClass);

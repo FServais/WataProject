@@ -31,7 +31,7 @@ public class TwitterSearchEngine {
      * Search the tweet corresponding to a query.
      *
      * @param query Query to search.
-     * @param maxNumberTweets Maximum number of tweets to retrieve. -1 if no limit (actually will be set to to max 180 requests).
+     * @param maxNumberTweets Maximum number of tweets to retrieve. -1 if no limit (actually will be set to max 180 requests).
      * @param fromMaxId Begins the search from that ID. -1 if first time.
      * @return List of tweet matching the query.
      * @throws TwitterException
