@@ -8,8 +8,15 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * @author Fabrice Servais (fabrice.servais@gmail.com)<br/>
- *         Date : 09/04/16
+ * Parses a text file containing a list of words, with information about whether they are positive or negative.
+ * It saves the result in an hash map <String, Integer> where the String is the word and the integer is a weight given to
+ * the word: 1 for positive and -1 for negative ones.
+ *
+ * @author Fabrice Servais (fabrice.servais@gmail.com)
+ * @author Michele Imperiali
+ * @author Laurent Vanosmael
+ *
+ * @since 23/04/2016
  */
 public class DictionaryParser {
 
@@ -61,6 +68,13 @@ public class DictionaryParser {
         s.close();
     }
 
+    /**
+     * If a word doesn't belong to the original list we add it after asking to the user to say whether it's positive,
+     * negative or neutral. It also returns the weight of the word.
+     *
+     * @param word word to be added to the dictionary
+     * @return the word weight (1 for positive, -1 for negative, 0 for neutral)
+     */
     public static int addWordToMap(String word){
         Scanner reader = new Scanner(System.in);  // Reading from System.in
         System.out.println("Word: " + word + " - Enter 1 for positive word, 2 for negative and 3 for neutral: ");
