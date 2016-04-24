@@ -73,7 +73,7 @@ public class DictionaryParser {
      * negative or neutral. It also returns the weight of the word.
      *
      * @param word word to be added to the dictionary
-     * @return the word weight (1 for positive, -1 for negative, 0 for neutral)
+     * @return the word weight (2 for positive, -2 for negative, 0 for neutral)
      */
     public static int addWordToMap(String word){
         Scanner reader = new Scanner(System.in);  // Reading from System.in
@@ -101,8 +101,8 @@ public class DictionaryParser {
         }
 
         int clazz;
-        if (n == 1) {clazz = 1;}
-        else if (n == 2) {clazz = -1;}
+        if (n == 1) {clazz = 2;}
+        else if (n == 2) {clazz = -2;}
         else {clazz = 0;}
 
         return clazz;

@@ -231,11 +231,11 @@ public class SentimentAnalyser {
         for(Map.Entry<String, Integer> row : testset.entrySet()) {
             count++;
 
-            if (count % 1000 == 0) {
+            if (count % 1000 == 0)
                 System.out.print(count + "...");
-            } else if(count % 10000 == 0) {
+            if(count % 10000 == 0)
                 System.out.print("\n");
-            }
+
 
             String tweet = new TweetCleaner().cleanString(row.getKey());
             int outputClass = getTweetClass(tweet, score(tweet, 0), 0);
@@ -244,7 +244,7 @@ public class SentimentAnalyser {
 //            System.out.println("---> Score found:" + outputClass);
 
             if (outputClass == 1) { // Positive
-                if (row.getValue() == 0) {
+                if (row.getValue() == 1) {
                     nTruePositive++;
                 } else {
                     nFalsePositive++;
@@ -261,7 +261,7 @@ public class SentimentAnalyser {
         }
 
         System.out.println("\n");
-        int total = nTruePositive + nTrueNegative + nFalsePositive + nFalseNegative;
+        int total = nTruePositive + nTrueNegative + nFalsePositive + nFalseNegative + nNeutral;
         System.out.println("======== Results: ");
         System.out.println("Tweets analysed: " + total);
         System.out.println("----------");
@@ -282,7 +282,7 @@ public class SentimentAnalyser {
      * @return the map of classified tweets
      */
     private Map<String, Integer> getTestingSet(String testingSetPath) {
-        int maxLines = 10, count = 0;
+        int maxLines = 1000, count = 0;
 
         final String[] CSV_HEADER = {"sentiment","tweetid","created_at","search_query","user","tweet"};
 

@@ -21,12 +21,12 @@ public class Main {
 
     private static final String HASHTAG = "#panamapapers";
     private static final String TRAINING_OUTPUT_FILE = "training_data_file.csv";
-    private static final String INPUT_FILE = "scoring/training.1600000.processed.noemoticon.csv";
+    private static final String EVALUATION_INPUT_FILE = "training.1600000.processed.noemoticon.csv";
 
     public static void main(String[] args) {
         SentimentAnalyser analyser = new SentimentAnalyser(HASHTAG, TRAINING_OUTPUT_FILE);
         analyser.analyseTweets(false);
-//        analyser.evaluateMethod(INPUT_FILE);
+        analyser.evaluateMethod(EVALUATION_INPUT_FILE);
     }
 
 }
