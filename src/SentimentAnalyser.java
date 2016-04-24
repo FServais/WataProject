@@ -17,6 +17,7 @@ import java.util.*;
  *
  *      DICTIONARY -> The name of a txt file containing a list of words and whether they are positive or negative
  *      MAX_TWEETS -> An integer representing the maximum number of tweets to be retrieved to perform the training
+ *      FROM_ID -> An integer used to retrieve tweets with ID greater than this one. Use -1 for default behaviour.
  *      UPPER_BOUND -> An integer used so that tweets with score bigger than UPPER_BOUND are flagged as positive
  *      LOWER_BOUND -> An integer (negative) so that tweets with score lower than LOWER_BOUND are flagged as negative
  *
@@ -30,7 +31,8 @@ public class SentimentAnalyser {
 
 
     private final String DICTIONARY = "sentiment-dict.txt";
-    private final int MAX_TWEETS = 20;
+    private final int MAX_TWEETS = 500;
+    private final Long FROM_ID = 721285130678091776L;
 
     private final int UPPER_BOUND = 1;
     private final int LOWER_BOUND = -1;
@@ -55,8 +57,7 @@ public class SentimentAnalyser {
      * @param appendResultsToEndOfFile whether to append results to the end of file or not
      */
     public void analyseTweets(boolean appendResultsToEndOfFile) {
-        long fromId = -1;
-        List<Status> tweets = getTweets(fromId);
+        List<Status> tweets = getTweets(FROM_ID);
         ArrayList<String> cleanedTweets = cleaner.cleanTweets(tweets);
         parseDictionary();
 
@@ -83,10 +84,10 @@ public class SentimentAnalyser {
      * @return the list of found tweets
      */
     private List<Status> getTweets(long maxId){
-        TwitterSearchEngine searchEngine = new TwitterSearchEngine();
+        TwitterSearchEngine searchEngine = new TwitterSearchEngine(maxId);
 
         List<Status> tweets;
-        tweets = searchEngine.searchTweet(hashtagToAnalyse, MAX_TWEETS, maxId);
+        tweets = searchEngine.searchTweet(hashtagToAnalyse, MAX_TWEETS);
 
         System.out.println("Number of tweets: " + tweets.size());
         for(Status tweet : tweets){
