@@ -19,8 +19,8 @@ public class TwitterSearchEngine {
 
     private long lastMaxId;
 
-    public TwitterSearchEngine(long fromMaxId) {
-        this.lastMaxId = fromMaxId;
+    public TwitterSearchEngine() {
+        this.lastMaxId = Long.MAX_VALUE;
     }
 
     public long getLastMaxId() {
@@ -32,10 +32,11 @@ public class TwitterSearchEngine {
      *
      * @param query Query to search.
      * @param maxNumberTweets Maximum number of tweets to retrieve. -1 if no limit (actually will be set to max 180 requests).
+     * @param fromMaxId Begins the search from that ID. -1 if first time.
      * @return List of tweet matching the query.
      * @throws TwitterException
      */
-    public List<Status> searchTweet(String query, int maxNumberTweets) {
+    public List<Status> searchTweet(String query, int maxNumberTweets, long fromMaxId) {
         System.out.print("Retrieving page ");
         int pageNumber = 1; // For log purpose
 
@@ -46,8 +47,8 @@ public class TwitterSearchEngine {
         twitterQuery.setLang("en"); // english tweets
         twitterQuery.setResultType(Query.ResultType.recent);
 
-        if (lastMaxId != -1)
-            twitterQuery.setMaxId(lastMaxId-1);
+        if (fromMaxId != -1)
+            twitterQuery.setMaxId(fromMaxId-1);
 
         List<Status> tweets = new ArrayList<>();
 
@@ -99,6 +100,11 @@ public class TwitterSearchEngine {
         System.out.println("Last maxId: " + this.lastMaxId);
         return tweets;
     }
+
+    public List<Status> searchTweet(String query, int maxNumberTweets) {
+        return this.searchTweet(query, maxNumberTweets, -1);
+    }
+
 
     public void cleanSearchEngine(){
         this.lastMaxId = Long.MAX_VALUE;

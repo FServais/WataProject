@@ -25,7 +25,7 @@ public class Main {
 
     public static void main(String[] args) {
         SentimentAnalyser analyser = new SentimentAnalyser(HASHTAG, TRAINING_OUTPUT_FILE);
-        analyser.analyseTweets(true);
+        analyser.analyseTweets(false);
         //analyser.evaluateMethod(EVALUATION_INPUT_FILE);
     }
 
