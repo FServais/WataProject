@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Fabrice Servais (fabrice.servais@gmail.com)<br/>
- *         Date : 09/04/16
+ * Search engine used to retrieve a list of tweets. It uses the variable lastMaxId to identify the last retrieved tweet,
+ * and retrieve the subsequent ones. It automatically discards Tweets containing URLs, cause they are very likely to be
+ * tweets written by news channels and thus very impartial and difficult to categorize. Furthermore it also discards
+ * retweets since the original tweet will be also included in the result and we want to avoid duplicates.
+ *
+ * @author Fabrice Servais (fabrice.servais@gmail.com)
+ * @author Michele Imperiali
+ * @author Laurent Vanosmael
+ *
+ * @since 23/04/2016
  */
 public class TwitterSearchEngine {
 
@@ -21,8 +29,9 @@ public class TwitterSearchEngine {
 
     /**
      * Search the tweet corresponding to a query.
+     *
      * @param query Query to search.
-     * @param maxNumberTweets Maximum number of tweets to retrieve. -1 if no limit (actually will be set to to max 180 requests).
+     * @param maxNumberTweets Maximum number of tweets to retrieve. -1 if no limit (actually will be set to max 180 requests).
      * @param fromMaxId Begins the search from that ID. -1 if first time.
      * @return List of tweet matching the query.
      * @throws TwitterException
@@ -35,12 +44,11 @@ public class TwitterSearchEngine {
 
         Query twitterQuery = new Query(query);
         twitterQuery.setCount(100); // Max # of tweet per page (100 is max)
-        twitterQuery.setLang("en");
+        twitterQuery.setLang("en"); // english tweets
         twitterQuery.setResultType(Query.ResultType.recent);
 
         if (fromMaxId != -1)
             twitterQuery.setMaxId(fromMaxId-1);
-
 
         List<Status> tweets = new ArrayList<>();
 
@@ -56,9 +64,8 @@ public class TwitterSearchEngine {
                 System.out.println();
 
             // Maximum number of requests by Twitter API (every 15 minutes)
-            if(pageNumber >= 180) {
+            if(pageNumber >= 180)
                 break;
-            }
 
             try {
                 results = twitter.search(twitterQuery);
@@ -77,7 +84,7 @@ public class TwitterSearchEngine {
                 if(tweet.isRetweet())
                     continue;
 
-                if(tweet.getText().contains("http"))//throws away tweets with http links
+                if(tweet.getText().contains("http"))//throws away tweets with http links cause they are very likely to be news tweets, very hard to classify
                     continue;
 
                 tweets.add(tweet);

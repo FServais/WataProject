@@ -7,28 +7,42 @@ import java.util.Scanner;
 
 import twitter4j.*;
 
+/**
+ * Class used to clean tweets. It performs the following cleaning activities:
+ *
+ * 		- Remove URLs
+ * 		- Remove punctuation and numbers
+ * 		- Remove stop words
+ * 		- Replace abbreviations
+ *
+ * Stop words and abbreviations are stored in two files whose names are stored in the variables STOPWORDS and ABBREVIATIONS.
+ *
+ */
 public class TweetCleaner {
 	//StopWords from Longlist : http://www.ranks.nl/stopwords
 
+	private final String STOPWORDS = "stopwords.txt";
+	private final String ABBREVIATIONS = "abbreviations.txt";
+
 	private HashMap<String, String> stopwords;
 	private HashMap<String, String> abbr;
-	
+
+	/**
+	 * Constructor: parses the stopwords and abbreviations files, saving the entries in two ad hoc hash maps
+	 */
 	public TweetCleaner(){
 	    stopwords = new HashMap<>();
 	    abbr = new HashMap<>();
-	    
 		try{
-		    File file = new File("stopwords.txt");
+			//parse the stopwords file
+		    File file = new File(STOPWORDS);
 		    Scanner input = new Scanner(file);
-		    
-		    
-		    
 		    while(input.hasNextLine()){
 		    	String line = input.nextLine();
 		    	stopwords.put(line, line);
 		    }
-		   
-		    File file2 = new File("abbreviations.txt");
+		    //parse the abbreviations file
+		    File file2 = new File(ABBREVIATIONS);
 		    input = new Scanner(file2);
 		    while(input.hasNextLine()){
 		    	String line = input.nextLine();
@@ -40,7 +54,12 @@ public class TweetCleaner {
 		}catch(FileNotFoundException e){e.printStackTrace();}
 	}
 
-	
+	/**
+	 * Clean a list of tweets
+	 *
+	 * @param tweets list of tweets to be cleaned
+	 * @return arraylist of cleaned strings
+     */
 	public ArrayList<String> cleanTweets(List<Status> tweets){
         ArrayList<String> cleanArray = new ArrayList<>();
 		for(Status tweet : tweets){
@@ -48,7 +67,13 @@ public class TweetCleaner {
         }
 		return cleanArray;
 	}
-	
+
+	/**
+	 * Clean a single string, removing URLs, stop words, spaces and punctuation and replacing abbreviations with their meaning.
+	 *
+	 * @param s String to be cleaned
+	 * @return cleaned result
+     */
 	public String cleanString(String s){
 		String clean = s.toLowerCase();
 		
@@ -57,23 +82,20 @@ public class TweetCleaner {
 		
 		//Remove punctuation & numbers
 		clean = clean.replaceAll("[^a-z ]", "");
-		
-		
-		
-		//Remove stopwords & replace abbreviations
+
+		//Remove stop words & replace abbreviations
 		String[] words = clean.split("[ ][ ]*");
 		StringBuilder build = new StringBuilder("");
 		for(int i = 0; i < words.length; ++i){
 			if(this.abbr.containsKey(words[i])){
-				words[i] = this.abbr.get(words[i]); //Abbreviations replacment
+				words[i] = this.abbr.get(words[i]); //Abbreviations replacement
 			}
-			if(!this.stopwords.containsKey(words[i].replaceAll(" ", ""))){ //Stopwords removal
+			if(!this.stopwords.containsKey(words[i].replaceAll(" ", ""))){ //Stop words removal
 				build.append(words[i]);
 				build.append(" ");
 			}
 		}
 		clean = build.toString();
-		
 		return clean;
 	}
 
