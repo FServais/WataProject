@@ -18,3 +18,8 @@ DictionaryParser.class
 training.1600000.processed.noemoticon.csv
 Project Description.pdf
 training_data_file.csv
+training_data_file_1000_tweets_GoTSeason6.csv
+training_data_file_1999_tweets_GoTSeason6.csv
+training_data_file_2999_tweets_GoTSeason6.csv
+training_data_file_3999_tweets_GoTSeason6.csv
+training_data_file_5000_tweets_GoTSeason6.csv

@@ -30,7 +30,7 @@ public class SentimentAnalyser {
 
 
     private final String DICTIONARY = "sentiment-dict.txt";
-    private final int MAX_TWEETS = 20;
+    private final int MAX_TWEETS = 1000;
 
     private final int UPPER_BOUND = 1;
     private final int LOWER_BOUND = -1;
@@ -55,7 +55,8 @@ public class SentimentAnalyser {
      * @param appendResultsToEndOfFile whether to append results to the end of file or not
      */
     public void analyseTweets(boolean appendResultsToEndOfFile) {
-        long fromId = -1;
+//        long fromId = -1;
+        long fromId = 724417268667445248L;
         List<Status> tweets = getTweets(fromId);
         ArrayList<String> cleanedTweets = cleaner.cleanTweets(tweets);
         parseDictionary();
