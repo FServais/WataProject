@@ -12,7 +12,7 @@ import java.util.Scanner;
  * It saves the result in an hash map <String, Integer> where the String is the word and the integer is a weight given to
  * the word: 1 for positive and -1 for negative ones.
  *
- * @author Fabrice Servais (fabrice.servais@gmail.com)
+ * @author Fabrice Servais
  * @author Michele Imperiali
  * @author Laurent Vanosmael
  *

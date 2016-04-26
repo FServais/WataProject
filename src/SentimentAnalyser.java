@@ -20,7 +20,7 @@ import java.util.*;
  *      UPPER_BOUND -> An integer used so that tweets with score bigger than UPPER_BOUND are flagged as positive
  *      LOWER_BOUND -> An integer (negative) so that tweets with score lower than LOWER_BOUND are flagged as negative
  *
- * @author Fabrice Servais (fabrice.servais@gmail.com)
+ * @author Fabrice Servais
  * @author Michele Imperiali
  * @author Laurent Vanosmael
  *
@@ -55,8 +55,8 @@ public class SentimentAnalyser {
      * @param appendResultsToEndOfFile whether to append results to the end of file or not
      */
     public void analyseTweets(boolean appendResultsToEndOfFile) {
-//        long fromId = -1;
-        long fromId = 724417268667445248L;
+        long fromId = -1;
+//        long fromId = 724417268667445248L;
         List<Status> tweets = getTweets(fromId);
         ArrayList<String> cleanedTweets = cleaner.cleanTweets(tweets);
         parseDictionary();

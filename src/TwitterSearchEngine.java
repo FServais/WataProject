@@ -9,7 +9,7 @@ import java.util.List;
  * tweets written by news channels and thus very impartial and difficult to categorize. Furthermore it also discards
  * retweets since the original tweet will be also included in the result and we want to avoid duplicates.
  *
- * @author Fabrice Servais (fabrice.servais@gmail.com)
+ * @author Fabrice Servais
  * @author Michele Imperiali
  * @author Laurent Vanosmael
  *

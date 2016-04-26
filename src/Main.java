@@ -10,7 +10,7 @@
  * Also, we have written the code to obtain a training set but we have finally used a much bigger set provided by Standford
  * university. This way we had much more data to train our algorithm and get better results.
  *
- * @author Fabrice Servais (fabrice.servais@gmail.com)
+ * @author Fabrice Servais
  * @author Michele Imperiali
  * @author Laurent Vanosmael
  *
@@ -19,7 +19,7 @@
  */
 public class Main {
 
-    private static final String HASHTAG = "#GoTSeason6"; // Last ID after 5000 tweets: 724417144889298944
+    private static final String HASHTAG = "#GoTSeason6";
     private static final String TRAINING_OUTPUT_FILE = "training_data_file.csv";
     private static final String EVALUATION_INPUT_FILE = "training.1600000.processed.noemoticon.csv";
 
